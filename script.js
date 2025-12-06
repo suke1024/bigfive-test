@@ -1,151 +1,151 @@
-// ===========================
-// 1. 質問データ
-// ===========================
-const questions = [
-  { id: 1, text: "他人の気持ちを察するのが得意だと思う。" },
-  { id: 2, text: "物事を計画的に進める方だ。" },
-  { id: 3, text: "人前で話すのが好きだ。" },
-  { id: 4, text: "新しいアイデアを考えるのが好きだ。" },
-  { id: 5, text: "しばしば不安を感じる。" },
-  // ……中略：50問分をここに入れていく
+/* ==========================================================
+   1. 質問50個（IPIP-50）＋ドメイン＋逆転項目
+   ========================================================== */
+const items = [
+  // ---- Neuroticism（神経症傾向）----
+  { id: 1,  text: "気分が落ち込むことが多い。", domain: "N", reverse: false },
+  { id: 2,  text: "めったにイライラしません。",         domain: "N", reverse: true  },
+  { id: 3,  text: "自分自身が嫌いです。",               domain: "N", reverse: false },
+  { id: 4,  text: "めったに憂鬱な気分にならない。",     domain: "N", reverse: true  },
+  { id: 5,  text: "よく落ち込んでしまいます。",         domain: "N", reverse: false },
+  { id: 6,  text: "物事に簡単に悩まされることはありません。", domain: "N", reverse: true },
+  { id: 7,  text: "気分の変動が激しい。",               domain: "N", reverse: false },
+  { id: 8,  text: "自分自身にとても満足しています。",   domain: "N", reverse: true  },
+  { id: 9,  text: "すぐにパニックになります。",         domain: "N", reverse: false },
+  { id: 10, text: "めったに不安にならない。",           domain: "N", reverse: true  },
+
+  // ---- Extraversion（外向性）----
+  { id: 11, text: "人と話すのが好きだ。", domain: "E", reverse: false },
+  { id: 12, text: "一人でいることが好きだ。", domain: "E", reverse: true },
+  { id: 13, text: "活気にあふれている。", domain: "E", reverse: false },
+  { id: 14, text: "静かに過ごす方が好ましい。", domain: "E", reverse: true },
+  { id: 15, text: "社交的である。", domain: "E", reverse: false },
+  { id: 16, text: "大勢の場が苦手だ。", domain: "E", reverse: true },
+  { id: 17, text: "積極的に他人に関わる。", domain: "E", reverse: false },
+  { id: 18, text: "知らない人と話すのが苦痛だ。", domain: "E", reverse: true },
+  { id: 19, text: "自分から話しかけることが多い。", domain: "E", reverse: false },
+  { id: 20, text: "人と関わるのが億劫だ。", domain: "E", reverse: true },
+
+  // ---- Openness（開放性）----
+  { id: 21, text: "新しいことに興味がある。", domain: "O", reverse: false },
+  { id: 22, text: "慣れたやり方だけを好む。", domain: "O", reverse: true },
+  { id: 23, text: "芸術的なものに惹かれる。", domain: "O", reverse: false },
+  { id: 24, text: "抽象的なことに興味がない。", domain: "O", reverse: true },
+  { id: 25, text: "創造的だと言われる。", domain: "O", reverse: false },
+  { id: 26, text: "想像力豊かではない。", domain: "O", reverse: true },
+  { id: 27, text: "新しいアイデアを考えるのが好きだ。", domain: "O", reverse: false },
+  { id: 28, text: "革新的なものに興味がない。", domain: "O", reverse: true },
+  { id: 29, text: "多様な価値観に触れるのが好きだ。", domain: "O", reverse: false },
+  { id: 30, text: "自分の考えを変えることはあまりない。", domain: "O", reverse: true },
+
+  // ---- Agreeableness（協調性）----
+  { id: 31, text: "他人に優しい方だ。", domain: "A", reverse: false },
+  { id: 32, text: "人に冷たい方だ。", domain: "A", reverse: true },
+  { id: 33, text: "思いやりがあると言われる。", domain: "A", reverse: false },
+  { id: 34, text: "他人の気持ちに無頓着だ。", domain: "A", reverse: true },
+  { id: 35, text: "困っている人を見ると助けたくなる。", domain: "A", reverse: false },
+  { id: 36, text: "人を信頼しない。", domain: "A", reverse: true },
+  { id: 37, text: "協力的である。", domain: "A", reverse: false },
+  { id: 38, text: "人と競争したがる。", domain: "A", reverse: true },
+  { id: 39, text: "礼儀正しい。", domain: "A", reverse: false },
+  { id: 40, text: "人を批判しがちだ。", domain: "A", reverse: true },
+
+  // ---- Conscientiousness（誠実性）----
+  { id: 41, text: "計画的に行動する。", domain: "C", reverse: false },
+  { id: 42, text: "行き当たりばったりで動く。", domain: "C", reverse: true },
+  { id: 43, text: "責任感がある。", domain: "C", reverse: false },
+  { id: 44, text: "物事を先延ばしにしがちだ。", domain: "C", reverse: true },
+  { id: 45, text: "几帳面な方だ。", domain: "C", reverse: false },
+  { id: 46, text: "面倒なことは避けたい。", domain: "C", reverse: true },
+  { id: 47, text: "目標に向かって努力する。", domain: "C", reverse: false },
+  { id: 48, text: "集中力が続かない。", domain: "C", reverse: true },
+  { id: 49, text: "やるべきことをやり遂げる。", domain: "C", reverse: false },
+  { id: 50, text: "途中で投げ出すことがある。", domain: "C", reverse: true }
 ];
 
-// ===========================
-// 2. 因子ごとの項目ID
-// ===========================
-// ここは前の回答で整理したビッグファイブの対応をそのまま使う
-const factors = {
-  Extraversion:  [3, 8, 13, 18, 23, 28, 33, 38, 43, 48],
-  Agreeableness: [1, 6, 11, 16, 21, 26, 31, 36, 41, 46],
-  Conscientiousness: [2, 7, 12, 17, 22, 27, 32, 37, 42, 47],
-  Neuroticism:   [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-  Openness:      [4, 9, 14, 19, 24, 29, 34, 39, 44, 49],
-};
+/* ==========================================================
+   2. 質問をHTMLに自動生成
+========================================================== */
+function renderQuestions() {
+  const container = document.getElementById("questions");
+  container.innerHTML = "";
 
-// ===========================
-// 3. 質問の描画
-// ===========================
-const questionsContainer = document.getElementById("questions");
-
-questions.forEach(q => {
-  const wrapper = document.createElement("div");
-  wrapper.className = "question";
-
-  const label = document.createElement("label");
-  label.className = "question-label";
-  label.textContent = `${q.id}. ${q.text}`;
-  wrapper.appendChild(label);
-
-  const options = document.createElement("div");
-  options.className = "options";
-
-  for (let i = 1; i <= 5; i++) {
-    const optionLabel = document.createElement("label");
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = `q${q.id}`;
-    input.value = i;
-    optionLabel.appendChild(input);
-    optionLabel.append(` ${i}`);
-    options.appendChild(optionLabel);
-  }
-
-  wrapper.appendChild(options);
-  questionsContainer.appendChild(wrapper);
-});
-
-// ===========================
-// 4. スコア計算
-// ===========================
-function calcFactorScore(answers, itemIds) {
-  let sum = 0;
-  itemIds.forEach(id => {
-    sum += answers[id] || 0;
+  items.forEach(item => {
+    container.innerHTML += `
+      <div class="question">
+        <p>${item.id}. ${item.text}</p>
+        <label><input type="radio" name="q${item.id}" value="1"> 全く当てはまらない</label>
+        <label><input type="radio" name="q${item.id}" value="2"> 当てはまらない</label>
+        <label><input type="radio" name="q${item.id}" value="3"> どちらでもない</label>
+        <label><input type="radio" name="q${item.id}" value="4"> 当てはまる</label>
+        <label><input type="radio" name="q${item.id}" value="5"> とても当てはまる</label>
+      </div>
+    `;
   });
-  return sum;
 }
 
-function toPercent(score) {
-  // 最低10点〜最高50点を 0〜100 にマッピング
-  return Math.round(((score - 10) / 40) * 100);
-}
-
-const form = document.getElementById("quiz-form");
-const resultSection = document.getElementById("result");
-const scoresDiv = document.getElementById("scores");
-const typeDiv = document.getElementById("type-description");
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  // 1〜50問の回答を集める
+/* ==========================================================
+   3. 回答取得（逆転項目処理つき）
+========================================================== */
+function getAnswers() {
   const answers = {};
-  for (let i = 1; i <= questions.length; i++) {
-    const checked = document.querySelector(`input[name="q${i}"]:checked`);
-    if (!checked) {
-      alert(`${i}問目が未回答です`);
+
+  items.forEach(item => {
+    const val = Number(
+      document.querySelector(`input[name="q${item.id}"]:checked`)?.value
+    );
+    if (!val) {
+      answers[item.id] = null;
       return;
     }
-    answers[i] = Number(checked.value);
-  }
+    // 逆転項目は 6 - val
+    answers[item.id] = item.reverse ? 6 - val : val;
+  });
 
-  // 因子スコアを計算
-  const scores = {};
-  for (const [factorName, itemIds] of Object.entries(factors)) {
-    const raw = calcFactorScore(answers, itemIds);
-    const percent = toPercent(raw);
-    scores[factorName] = { raw, percent };
-  }
-
-  // 結果を表示
-  scoresDiv.innerHTML = "";
-  for (const [name, { raw, percent }] of Object.entries(scores)) {
-    const p = document.createElement("p");
-    const jpName = {
-      Extraversion: "外向性",
-      Agreeableness: "協調性",
-      Conscientiousness: "誠実性",
-      Neuroticism: "神経症傾向",
-      Openness: "開放性",
-    }[name];
-
-    p.textContent = `${jpName}: 生スコア ${raw} / 50（偏差 ${percent} / 100）`;
-    scoresDiv.appendChild(p);
-  }
-
-  // 簡単なタイプ診断例（ここは自由に拡張）
-  typeDiv.innerHTML = makeTypeDescription(scores);
-
-  resultSection.classList.remove("hidden");
-});
-
-// 簡単なタイプ分類の例
-function makeTypeDescription(scores) {
-  const e = scores.Extraversion.percent;
-  const c = scores.Conscientiousness.percent;
-  const o = scores.Openness.percent;
-  const a = scores.Agreeableness.percent;
-  const n = scores.Neuroticism.percent;
-
-  let title = "";
-  let text = "";
-
-  if (e >= 60 && o >= 60) {
-    title = "アイデア豊富な社交クリエイタータイプ";
-    text = "人と話しながら新しい発想を生み出すのが得意なタイプです。企画職やPM、広告・イベントなどで力を発揮しやすい傾向があります。";
-  } else if (e < 40 && o >= 60) {
-    title = "静かな思索家・リサーチャータイプ";
-    text = "一人でじっくり考えたり、深く調べたりすることが得意です。研究、データ分析、設計、ライティングなどで活躍しやすい傾向があります。";
-  } else {
-    title = "バランス型・オールラウンダータイプ";
-    text = "どの特性も極端ではなく、さまざまな環境に適応できる柔軟なタイプです。チームの調整役や、越境的なキャリアにも向いています。";
-  }
-
-  if (n >= 60) {
-    text += "<br><br>一方で、ストレスや不安を感じやすい面もあります。休息やセルフケアの時間を意識して取ることで、パフォーマンスを維持しやすくなります。";
-  } else if (n <= 40) {
-    text += "<br><br>感情が安定していて、周囲の人に安心感を与える存在になりやすいでしょう。";
-  }
-
-  return `<h3>${title}</h3><p>${text}</p>`;
+  return answers;
 }
+
+/* ==========================================================
+   4. 因子スコア（0〜40）を計算
+      素点10〜50 → 0〜40（素点 −10）
+========================================================== */
+function calcDomainScores(answers) {
+  const domainRaw = { N: 0, E: 0, O: 0, A: 0, C: 0 };
+
+  items.forEach(item => {
+    domainRaw[item.domain] += answers[item.id];
+  });
+
+  const to40 = (raw) => raw - 10; // 10〜50 → 0〜40
+
+  return {
+    N: to40(domainRaw.N),
+    E: to40(domainRaw.E),
+    O: to40(domainRaw.O),
+    A: to40(domainRaw.A),
+    C: to40(domainRaw.C)
+  };
+}
+
+/* ==========================================================
+   5. 提出ボタン押下時：スコアを保存して結果ページへ遷移
+========================================================== */
+function handleSubmit() {
+  const answers = getAnswers();
+
+  if (Object.values(answers).includes(null)) {
+    alert("未回答の項目があります。");
+    return;
+  }
+
+  const scores = calcDomainScores(answers);
+
+  // localStorage に保存（0〜40スケール）
+  localStorage.setItem("big5Scores", JSON.stringify(scores));
+
+  // 結果ページへ遷移（ファイル名は好きに変えてOK）
+  window.location.href = "result.html";
+}
+
+// ページ読み込み時に質問生成
+window.onload = renderQuestions;
